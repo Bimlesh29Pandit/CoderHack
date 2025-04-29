@@ -76,6 +76,13 @@ public class UserServiceTest {
 		Assertions.assertTrue(updatedUser.getBadges().contains("Code Ninja"));
 		Assertions.assertTrue(updatedUser.getBadges().contains("Code Champ"));
 	}
+
+	@Test
+	public void getUserByIdNotFoundTest(){
+		String userId = "123";
+		Mockito.when(userRepository.findById(userId)).thenReturn(java.util.Optional.empty());
+		Assertion.assertThrows(UserNotFoundException.class,()->userService.getUserById(userId));
+	}
 	//
 	//	@Test
 	//	public void getUserByIdNotFoundTest() {
@@ -116,6 +123,13 @@ public class UserServiceTest {
 	//		Assertions.assertTrue(updatedUser.getBadges().contains("Code Ninja"));
 	//	}
 	//
+	@Test
+	public void updateScoreInvalidTest(){
+		String userId = "123";
+		int invalidScore = 150;
+		Assertion.assertThrow(IllegalArgumentException.class, ()->userService.updateScore(userId,invalidScore));
+		
+	}
 	//	@Test
 	//	public void updateScoreInvalidTest() {
 	//		String userId = "123";
@@ -125,6 +139,14 @@ public class UserServiceTest {
 	//	}
 	//
 	//	@Test
+	@Test
+	public void deleteUserTest(){
+		String userId = "123";
+		User user = new User();
+		user.setUserId(userId);
+		Mockito.when(userRepository.findById(userId)).thenReturn(java.util.Optional.of(user));
+		
+	}
 	//	public void deleteUserTest() {
 	//		String userId = "123";
 	//		User user = new User();
