@@ -63,6 +63,19 @@ public class UserServiceTest {
 
 
 	}
+	@Test
+	public void updateScoreTest(){
+		User user = new User();
+		int newScore = 50;
+		String userId = "123";
+		user.setUserId("123");
+		Mockito.when(userRepository.save(user)).thenReturn(user);
+		Mockito.when(userRepository.findById(userId)).thenReturn(java.util.Optional.of(user));
+		User updatedUser = userService.updateScore(userId,newScore);
+		Assertions.assertEquals(newScore, updatedUser.getScore());
+		Assertions.assertTrue(updatedUser.getBadges().contains("Code Ninja"));
+		Assertions.assertTrue(updatedUser.getBadges().contains("Code Champ"));
+	}
 	//
 	//	@Test
 	//	public void getUserByIdNotFoundTest() {
