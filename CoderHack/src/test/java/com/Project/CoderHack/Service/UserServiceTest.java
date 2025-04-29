@@ -3,8 +3,6 @@ package com.Project.CoderHack.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -81,80 +79,30 @@ public class UserServiceTest {
 	public void getUserByIdNotFoundTest(){
 		String userId = "123";
 		Mockito.when(userRepository.findById(userId)).thenReturn(java.util.Optional.empty());
-		Assertion.assertThrows(UserNotFoundException.class,()->userService.getUserById(userId));
+		Assertions.assertThrows(UserNotFoundException.class,()->userService.getUserById(userId));
 	}
-	//
-	//	@Test
-	//	public void getUserByIdNotFoundTest() {
-	//		String userId = "123";
-	//
-	//		Mockito.when(userRepository.findById(userId)).thenReturn(java.util.Optional.empty());
-	//
-	//		Assertions.assertThrows(UserNotFoundException.class, () -> userService.getUserById(userId));
-	//	}
-	//
-	//	@Test
-	//	public void registerUserTest() {
-	//		User user = new User();
-	//		User savedUser = new User();
-	//		savedUser.setScore(0);
-	//		savedUser.setBadges(new HashSet<>());
-	//
-	//		Mockito.when(userRepository.save(user)).thenReturn(savedUser);
-	//
-	//		User actualUser = userService.registerUser(user);
-	//
-	//		Assertions.assertEquals(savedUser, actualUser);
-	//	}
-	//
-	//	@Test
-	//	public void updateScoreTest() {
-	//		String userId = "123";
-	//		int newScore = 50;
-	//		User user = new User();
-	//		user.setId(userId);
-	//
-	//		Mockito.when(userRepository.findById(userId)).thenReturn(java.util.Optional.of(user));
-	//		Mockito.when(userRepository.save(user)).thenReturn(user);
-	//
-	//		User updatedUser = userService.updateScore(userId, newScore);
-	//
-	//		Assertions.assertEquals(newScore, updatedUser.getScore());
-	//		Assertions.assertTrue(updatedUser.getBadges().contains("Code Ninja"));
-	//	}
-	//
+	
 	@Test
 	public void updateScoreInvalidTest(){
 		String userId = "123";
 		int invalidScore = 150;
-		Assertion.assertThrow(IllegalArgumentException.class, ()->userService.updateScore(userId,invalidScore));
+		Assertions.assertThrows(IllegalArgumentException.class, ()->userService.updateScore(userId,invalidScore));
 		
 	}
-	//	@Test
-	//	public void updateScoreInvalidTest() {
-	//		String userId = "123";
-	//		int invalidScore = 150;
-	//
-	//		Assertions.assertThrows(IllegalArgumentException.class, () -> userService.updateScore(userId, invalidScore));
-	//	}
-	//
-	//	@Test
+	
 	@Test
 	public void deleteUserTest(){
 		String userId = "123";
 		User user = new User();
 		user.setUserId(userId);
+		
 		Mockito.when(userRepository.findById(userId)).thenReturn(java.util.Optional.of(user));
+		Mockito.doNothing().when(userRepository).deleteById(userId);
+		Assertions.assertDoesNotThrow(()->userService.deleteUser(userId));
+		
+		
 		
 	}
-	//	public void deleteUserTest() {
-	//		String userId = "123";
-	//		User user = new User();
-	//		user.setId(userId);
-	//
-	//		Mockito.when(userRepository.findById(userId)).thenReturn(java.util.Optional.of(user));
-	//		Mockito.doNothing().when(userRepository).deleteById(userId);
-	//
-	//		Assertions.assertDoesNotThrow(() -> userService.deleteUser(userId));
-	//	}
+	
+	
 }
